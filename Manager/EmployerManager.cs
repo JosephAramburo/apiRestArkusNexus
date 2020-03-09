@@ -1,4 +1,4 @@
-﻿using DAO.Config;
+﻿using Common.Config;
 using Common.DTO;
 using Common.Interfaces;
 using DomainObject;
@@ -15,7 +15,7 @@ namespace Manager
 
         public EmployerManager(DataBaseContext dataBaseContext)
         {
-            this.employerDomainObject = new EmployerDomainObject(dataBaseContext);
+            this.employerDomainObject = new EmployerDomainObject(dataBaseContext);            
         }
 
         public EmployerDTO GetById(int id)
@@ -23,7 +23,56 @@ namespace Manager
             try
             {
                 return this.employerDomainObject.GetById(id);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public EmployerDTO Delete(int id)
+        {
+            try
+            {
+                return this.employerDomainObject.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }        
+
+        public List<EmployerDTO> Pagination(EmployerDTO filters)
+        {
+            try
+            {
+                return this.employerDomainObject.Pagination(filters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public EmployerDTO Save(EmployerDTO employerDTO)
+        {
+            try
+            {
+                return this.employerDomainObject.Save(employerDTO);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public EmployerDTO Update(EmployerDTO employerDTO)
+        {
+            try
+            {
+                return this.employerDomainObject.Save(employerDTO);
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 using Common.DTO;
-using DAO.Config;
+using Common.Config;
 using Manager;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using apiRestArkus.Constants;
 
 namespace apiRestArkus.Controllers
 {
-    [Route("api/[controller]")]
+    [Route(ControllerContants.Employer)]
     [ApiController]
     public class EmployerController : ControllerBase
     {
@@ -25,13 +20,11 @@ namespace apiRestArkus.Controllers
             _employerManager = new EmployerManager(dbContext);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet(APIConstants.GetById)]
         public ActionResult<EmployerDTO> GetById(int id)
         {
             try
             {
-                //this._dbContext.Employer
-                //List<EmployerDTO> find = this._dbContext.Employer.FromSql("EXEC sp_GetEmployerById @id", new SqlParameter("@id", 1)).ToList();
                 var result = this._employerManager.GetById(id);
                 return Ok(result);
             }
@@ -40,7 +33,47 @@ namespace apiRestArkus.Controllers
                 return Conflict(ex.Message.ToString());
             }
         }
-       
 
+        [HttpPut(APIConstants.Update)]
+        public ActionResult<EmployerDTO> Update(int id, [FromBody] EmployerDTO employerDTO)
+        {
+            try
+            {
+                var result = this._employerManager.Update(employerDTO);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message.ToString());
+            }
+        }
+
+        [HttpPost(APIConstants.Save)]
+        public ActionResult<EmployerDTO> Save([FromBody] EmployerDTO employerDTO)
+        {
+            try
+            {
+                var result = this._employerManager.Save(employerDTO);
+                return Created("",result);
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message.ToString());
+            }
+        }
+
+        [HttpDelete(APIConstants.Delete)]
+        public ActionResult<EmployerDTO> Delete(int id)
+        {
+            try
+            {
+                var result = this._employerManager.Delete(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message.ToString());
+            }
+        }
     }
 }

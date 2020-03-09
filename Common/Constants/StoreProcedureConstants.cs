@@ -6,6 +6,8 @@ namespace Common.Constants
 {
     public static class StoreProcedureConstants
     {
-        public const string CreateOrUpdateEmployer = "sp_create_or_update_employer";
+        public const string CreateOrUpdateEmployer  = "sp_createOrUpdateEmployer";
+        public const string GetEmployerById         = "sp_GetEmployerById";
+        public const string GetEmployerByEmail      = "sp_GetEmployerByEmail";
     }
 }

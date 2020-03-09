@@ -6,6 +6,28 @@ namespace Common.Constants
 {
     public static class ParametersConstants
     {
-        public const string ID = "id";
+
+        #region Paramters StoreProcedure Generals
+        public const string ID          = "@id";
+        public const string TypeScrud   = "@typeCrud";
+        public const string Status      = "@status";
+        public const string CreatedAt   = "@createdAt";
+        public const string CreatedBy   = "@createdBy";
+        public const string UpdatedAt   = "@updatedAt";
+        public const string UpdatedBy   = "@updatedBy";
+        #endregion
+
+        #region Parameters StoreProcedure
+        public const string Email                = "@email";
+        public const string Password            = "@password";
+        public const string Role                = "@role";
+        public const string Name                = "@name";
+        public const string LastName            = "@lastName";
+        public const string MotherLastName      = "@motherLastName";
+        public const string AdmissionDate       = "@admissionDate";
+        public const string BaseIncome          = "@baseIncome";
+        public const string BreakfastDeduction  = "@breakfastDeduction";
+        public const string SavingsDeduction    = "@savingsDeduction";        
+        #endregion
     }
 }

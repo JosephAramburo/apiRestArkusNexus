@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 namespace apiRestArkus.Constants
 {
     public class ControllerContants
-    {
+    {        
+        public const string Employer        = "api/employer";
+        public const string Authorization   = "api/authorization";
     }
 }

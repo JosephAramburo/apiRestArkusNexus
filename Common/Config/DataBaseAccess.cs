@@ -20,28 +20,28 @@ namespace DAO.Config
         /// <param name="sp"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static string GetCommand(string sp, List<SqlParameter> parameters)
-        {
-            return string.Format("{0} {1}", sp, parameters != null ? string.Join(",", parameters.Select(x => string.Format("@{0}", x.ParameterName)).ToArray()) : null);
-        }
+        //public static string GetCommand(string sp, List<SqlParameter> parameters)
+        //{
+        //    return string.Format("{0} {1}", sp, parameters != null ? string.Join(",", parameters.Select(x => string.Format("@{0}", x.ParameterName)).ToArray()) : null);
+        //}
 
         /// <summary>
         /// Crea un arreglo de SqlParameters apartir de un diccionario de datos
         /// </summary>
         /// <param name="parameters">Parámetro / Valor</param>
         /// <returns>object[]</returns>
-        public static object[] Parameters(Dictionary<string, object> parameters)
-        {
-            object[] sql = parameters.Select(
-                p => new SqlParameter
-                {
-                    ParameterName = p.Key,
-                    Value = p.Value
-                }
-                ).ToArray<object>();
+        //public static object[] Parameters(Dictionary<string, object> parameters)
+        //{
+        //    object[] sql = parameters.Select(
+        //        p => new SqlParameter
+        //        {
+        //            ParameterName = p.Key,
+        //            Value = p.Value
+        //        }
+        //        ).ToArray<object>();
 
-            return sql;
-        }
+        //    return sql;
+        //}
 
         /// <summary>
         /// Ejecuta un SP sin parametros y regresa una lista de objetos
