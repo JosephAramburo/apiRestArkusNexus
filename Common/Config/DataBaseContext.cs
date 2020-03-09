@@ -13,6 +13,8 @@ namespace Common.Config
         {
         }
 
+        public DbSet<EmployerFiltersResult> EmployerFiltersResults { get; set; }
+
         public DbSet<EmployerDTO> Employer { get; set; }
         //public DbSet<EmployerFiltersResponse> EmployerResponse { get; set; }
 

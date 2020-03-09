@@ -20,33 +20,47 @@ namespace DAO
             this._dataBaseContext = dataBaseContext;            
         }
 
-        public EmployerFiltersResponse GetByFilters(EmployerFiltersRequest parameters)
+        public EmployerFiltersResponse GetByFilters(EmployerFiltersRequest employerFiltersRequest)
         {
             try
             {
-                var storeProcedure = string.Format("EXEC {0} {1}, {2}, {3}, {4}, {5}, {6}, {7}", 
-                    StoreProcedureConstants.GetEmployersByFilters, 
-                    ParametersConstants.Page, 
-                    ParametersConstants.ID,
+                //ParametersConstants.AdmissionDate,
+                //var storeProcedure = string.Format("EXEC {0} {1}, {2}, {3}, {4}, {5}, {6}, {7}",
+                //    StoreProcedureConstants.GetEmployersByFilters,
+                //    1,
+                //    DBNull.Value,
+                //    0,
+                //    DBNull.Value,
+                //    0,
+                //    0,
+                //    5);
+                var storeProcedure = string.Format("EXEC {0} {1}, {2}, {3}, {4}, {5}, {6}, {7}",
+                    StoreProcedureConstants.GetEmployersByFilters,
+                    ParametersConstants.Page,
                     ParametersConstants.Email,
+                    ParametersConstants.ID,
                     ParametersConstants.Name,
-                    ParametersConstants.AdmissionDate,
                     ParametersConstants.Role,
                     ParametersConstants.Status,
                     ParametersConstants.Limit);
+
+
+                //var id = parameters.AdmissionDate == 0 ? null : parameters.Id;
+                //parameters.AdmissionDate
+                //new SqlParameter(ParametersConstants.AdmissionDate, null),
+
                 var listParameters = new List<SqlParameter>
                 {
-                    new SqlParameter(ParametersConstants.Page, parameters.Page),
-                    new SqlParameter(ParametersConstants.ID, parameters.Id),
-                    new SqlParameter(ParametersConstants.Email, parameters.Email),
-                    new SqlParameter(ParametersConstants.Name, parameters.Name),
-                    new SqlParameter(ParametersConstants.AdmissionDate, parameters.AdmissionDate),
-                    new SqlParameter(ParametersConstants.Role, parameters.Role),
-                    new SqlParameter(ParametersConstants.Status, parameters.Status),
-                    new SqlParameter(ParametersConstants.Limit, 10)
+                    new SqlParameter(ParametersConstants.Page,  SqlDbType.Int)          { Value = employerFiltersRequest.Page},
+                    new SqlParameter(ParametersConstants.Email, SqlDbType.VarChar, 200) { Value = employerFiltersRequest.Email == null ? "" :  employerFiltersRequest.Email },
+                    new SqlParameter(ParametersConstants.ID,    SqlDbType.Int)          { Value = employerFiltersRequest.Id},
+                    new SqlParameter(ParametersConstants.Name,  SqlDbType.VarChar, 180) { Value = employerFiltersRequest.Name == null ? "" :  employerFiltersRequest.Name},
+                    new SqlParameter(ParametersConstants.Role,  SqlDbType.Int)          { Value = employerFiltersRequest.Role },
+                    new SqlParameter(ParametersConstants.Status,SqlDbType.Int)          { Value = employerFiltersRequest.Status},
+                    new SqlParameter(ParametersConstants.Limit, SqlDbType.Int)          { Value = 10 }
                 };
-
-                var result = this._dataBaseContext.Set<EmployerFiltersResult>().FromSql(storeProcedure, listParameters).ToList();
+                //listParameters
+                var result = this._dataBaseContext.Set<EmployerFiltersResult>().FromSql(storeProcedure, listParameters.ToArray()).ToList();
 
                 var employers = result.Select(x => new EmployerDTO
                 {
@@ -62,7 +76,7 @@ namespace DAO
 
                 return new EmployerFiltersResponse
                 {
-                    Page =  parameters.Page,
+                    Page = employerFiltersRequest.Page,
                     Count = result.Count() > 0 ? result[0].Count : 0,
                     Employers = employers
                 };
