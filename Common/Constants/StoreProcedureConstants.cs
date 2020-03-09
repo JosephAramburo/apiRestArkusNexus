@@ -9,5 +9,6 @@ namespace Common.Constants
         public const string CreateOrUpdateEmployer  = "sp_createOrUpdateEmployer";
         public const string GetEmployerById         = "sp_GetEmployerById";
         public const string GetEmployerByEmail      = "sp_GetEmployerByEmail";
+        public const string GetEmployersByFilters   = "sp_GetEmployersByFilters";
     }
 }

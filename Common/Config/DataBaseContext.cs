@@ -14,6 +14,7 @@ namespace Common.Config
         }
 
         public DbSet<EmployerDTO> Employer { get; set; }
+        //public DbSet<EmployerFiltersResponse> EmployerResponse { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

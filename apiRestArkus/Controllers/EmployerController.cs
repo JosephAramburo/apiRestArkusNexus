@@ -20,6 +20,20 @@ namespace apiRestArkus.Controllers
             _employerManager = new EmployerManager(dbContext);
         }
 
+        [HttpGet(APIConstants.Filters)]
+        public ActionResult<EmployerFiltersResponse> GetByFilters([FromQuery] EmployerFiltersRequest employerFiltersRequest)
+        {
+            try
+            {
+                var result = this._employerManager.GetByFilters(employerFiltersRequest);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message.ToString());
+            }
+        }
+
         [HttpGet(APIConstants.GetById)]
         public ActionResult<EmployerDTO> GetById(int id)
         {

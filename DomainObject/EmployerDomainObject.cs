@@ -17,6 +17,18 @@ namespace DomainObject
             this.employerDAO = new EmployerDAO(dataBaseContext);
         }
 
+        public EmployerFiltersResponse GetByFilters(EmployerFiltersRequest employerFiltersRequest)
+        {
+            try
+            {
+                return this.employerDAO.GetByFilters(employerFiltersRequest);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public EmployerDTO GetById(int id)
         {
             try

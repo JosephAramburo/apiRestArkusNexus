@@ -20,6 +20,59 @@ namespace DAO
             this._dataBaseContext = dataBaseContext;            
         }
 
+        public EmployerFiltersResponse GetByFilters(EmployerFiltersRequest parameters)
+        {
+            try
+            {
+                var storeProcedure = string.Format("EXEC {0} {1}, {2}, {3}, {4}, {5}, {6}, {7}", 
+                    StoreProcedureConstants.GetEmployersByFilters, 
+                    ParametersConstants.Page, 
+                    ParametersConstants.ID,
+                    ParametersConstants.Email,
+                    ParametersConstants.Name,
+                    ParametersConstants.AdmissionDate,
+                    ParametersConstants.Role,
+                    ParametersConstants.Status,
+                    ParametersConstants.Limit);
+                var listParameters = new List<SqlParameter>
+                {
+                    new SqlParameter(ParametersConstants.Page, parameters.Page),
+                    new SqlParameter(ParametersConstants.ID, parameters.Id),
+                    new SqlParameter(ParametersConstants.Email, parameters.Email),
+                    new SqlParameter(ParametersConstants.Name, parameters.Name),
+                    new SqlParameter(ParametersConstants.AdmissionDate, parameters.AdmissionDate),
+                    new SqlParameter(ParametersConstants.Role, parameters.Role),
+                    new SqlParameter(ParametersConstants.Status, parameters.Status),
+                    new SqlParameter(ParametersConstants.Limit, 10)
+                };
+
+                var result = this._dataBaseContext.Set<EmployerFiltersResult>().FromSql(storeProcedure, listParameters).ToList();
+
+                var employers = result.Select(x => new EmployerDTO
+                {
+                    Id              = x.Id,
+                    Email           = x.Email,
+                    Name            = x.Name,
+                    LastName        = x.LastName,
+                    MotherLastName  = x.MotherLastName,
+                    AdmissionDate   = x.AdmissionDate,
+                    Status          = x.Status,
+                    Role            = x.Role
+                }).ToList();
+
+                return new EmployerFiltersResponse
+                {
+                    Page =  parameters.Page,
+                    Count = result.Count() > 0 ? result[0].Count : 0,
+                    Employers = employers
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public EmployerDTO GetByEmail(string email)
         {
             try

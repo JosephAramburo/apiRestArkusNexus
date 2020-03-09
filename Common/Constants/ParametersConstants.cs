@@ -18,7 +18,7 @@ namespace Common.Constants
         #endregion
 
         #region Parameters StoreProcedure
-        public const string Email                = "@email";
+        public const string Email               = "@email";
         public const string Password            = "@password";
         public const string Role                = "@role";
         public const string Name                = "@name";
@@ -28,6 +28,8 @@ namespace Common.Constants
         public const string BaseIncome          = "@baseIncome";
         public const string BreakfastDeduction  = "@breakfastDeduction";
         public const string SavingsDeduction    = "@savingsDeduction";        
+        public const string Page                = "@page";    
+        public const string Limit               = "@limit";    
         #endregion
     }
 }

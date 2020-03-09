@@ -5,6 +5,7 @@ namespace Common.Interfaces
 {
     public interface IEmployer
     {
+        EmployerFiltersResponse GetByFilters(EmployerFiltersRequest employerFiltersRequest);
         EmployerDTO GetById(int id);
         List<EmployerDTO> Pagination(EmployerDTO filters);
         EmployerDTO Save(EmployerDTO employerDTO);

@@ -31,7 +31,7 @@ namespace DomainObject
             {
                 var employer = this._employerDAO.GetByEmail(loginRequest.Email);
 
-                if(!employer.Equals(null))
+                if(employer != null)
                 {
                     var salt = BCrypt.Net.BCrypt.GenerateSalt(12);
                     var password = BCrypt.Net.BCrypt.HashPassword(loginRequest.Password, salt);
@@ -39,6 +39,7 @@ namespace DomainObject
                     {
                         loginD = new LoginResponse
                         {
+                            Id = employer.Id,
                             Name = string.Format("{0} {1} {2}", employer.Name, employer.LastName, employer.MotherLastName),
                             Token = this.CreateToken(employer),
                             IsAdmin = employer.Role.Equals(1)
@@ -48,6 +49,10 @@ namespace DomainObject
                     {
                         throw new Exception("Usuario o contraseña incorrecta");
                     }
+                }
+                else
+                {
+                    throw new Exception("Usuario o contraseña incorrecta");
                 }
 
                 return loginD;

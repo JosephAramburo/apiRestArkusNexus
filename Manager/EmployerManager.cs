@@ -18,6 +18,18 @@ namespace Manager
             this.employerDomainObject = new EmployerDomainObject(dataBaseContext);            
         }
 
+        public EmployerFiltersResponse GetByFilters(EmployerFiltersRequest employerFiltersRequest)
+        {
+            try
+            {
+                return this.employerDomainObject.GetByFilters(employerFiltersRequest);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public EmployerDTO GetById(int id)
         {
             try
@@ -76,6 +88,6 @@ namespace Manager
             {
                 throw new Exception(ex.Message);
             }
-        }
+        }        
     }
 }
