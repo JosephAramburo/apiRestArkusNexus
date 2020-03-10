@@ -33,7 +33,10 @@ namespace DomainObject
         {
             try
             {
-                return this.employerDAO.GetById(id);
+                var response        = this.employerDAO.GetById(id);
+                response.Password   = "";
+
+                return response;
             }
             catch (Exception ex)
             {

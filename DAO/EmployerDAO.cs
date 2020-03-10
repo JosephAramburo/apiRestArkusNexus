@@ -24,16 +24,6 @@ namespace DAO
         {
             try
             {
-                //ParametersConstants.AdmissionDate,
-                //var storeProcedure = string.Format("EXEC {0} {1}, {2}, {3}, {4}, {5}, {6}, {7}",
-                //    StoreProcedureConstants.GetEmployersByFilters,
-                //    1,
-                //    DBNull.Value,
-                //    0,
-                //    DBNull.Value,
-                //    0,
-                //    0,
-                //    5);
                 var storeProcedure = string.Format("EXEC {0} {1}, {2}, {3}, {4}, {5}, {6}, {7}",
                     StoreProcedureConstants.GetEmployersByFilters,
                     ParametersConstants.Page,
@@ -44,11 +34,6 @@ namespace DAO
                     ParametersConstants.Status,
                     ParametersConstants.Limit);
 
-
-                //var id = parameters.AdmissionDate == 0 ? null : parameters.Id;
-                //parameters.AdmissionDate
-                //new SqlParameter(ParametersConstants.AdmissionDate, null),
-
                 var listParameters = new List<SqlParameter>
                 {
                     new SqlParameter(ParametersConstants.Page,  SqlDbType.Int)          { Value = employerFiltersRequest.Page},
@@ -57,9 +42,9 @@ namespace DAO
                     new SqlParameter(ParametersConstants.Name,  SqlDbType.VarChar, 180) { Value = employerFiltersRequest.Name == null ? "" :  employerFiltersRequest.Name},
                     new SqlParameter(ParametersConstants.Role,  SqlDbType.Int)          { Value = employerFiltersRequest.Role },
                     new SqlParameter(ParametersConstants.Status,SqlDbType.Int)          { Value = employerFiltersRequest.Status},
-                    new SqlParameter(ParametersConstants.Limit, SqlDbType.Int)          { Value = 10 }
+                    new SqlParameter(ParametersConstants.Limit, SqlDbType.Int)          { Value = 5 }
                 };
-                //listParameters
+
                 var result = this._dataBaseContext.Set<EmployerFiltersResult>().FromSql(storeProcedure, listParameters.ToArray()).ToList();
 
                 var employers = result.Select(x => new EmployerDTO
@@ -106,12 +91,8 @@ namespace DAO
         {
             try
             {
-                var storeProcedure = string.Format("EXEC {0} {1}", StoreProcedureConstants.GetEmployerById, ParametersConstants.ID);
-                var listParameters = new List<SqlParameter>
-                {
-                    new SqlParameter(ParametersConstants.ID, id),
-                };
-                var result = this._dataBaseContext.Employer.FromSql(storeProcedure, listParameters).ToList();
+                var storeProcedure = string.Format("EXEC {0} {1}", StoreProcedureConstants.GetEmployerById, ParametersConstants.ID);             
+                var result = this._dataBaseContext.Employer.FromSql(storeProcedure, new SqlParameter(ParametersConstants.ID, id)).ToList();
 
                 return result.Count() > 0 ? result[0] : null;
             }
@@ -125,14 +106,21 @@ namespace DAO
         {
             try
             {
-                var storeProcedure = string.Format("EXEC {0} {1}, {2}", StoreProcedureConstants.CreateOrUpdateEmployer, ParametersConstants.ID, ParametersConstants.TypeScrud);
+                var storeProcedure = string.Format("EXEC {0} {1}, {2}, {3}, {4}", 
+                    StoreProcedureConstants.DeleteEmployer, 
+                    ParametersConstants.ID, 
+                    ParametersConstants.Status,
+                    ParametersConstants.UpdatedAt,
+                    ParametersConstants.UpdatedBy);
                 var listParameters = new List<SqlParameter>
                 {
-                    new SqlParameter(ParametersConstants.ID, id),
-                    new SqlParameter(ParametersConstants.TypeScrud, 3)
+                    new SqlParameter(ParametersConstants.ID,        SqlDbType.Int) { Value = id },                    
+                    new SqlParameter(ParametersConstants.Status,    SqlDbType.Int) { Value = 0 },
+                    new SqlParameter(ParametersConstants.UpdatedAt, SqlDbType.DateTime) { Value = DateTime.Now },
+                    new SqlParameter(ParametersConstants.UpdatedBy, SqlDbType.Int) { Value = 1 },
                 };
 
-                var result = this._dataBaseContext.Employer.FromSql(storeProcedure, listParameters).ToList();
+                var result = this._dataBaseContext.Employer.FromSql(storeProcedure, listParameters.ToArray()).ToList();
 
                 return result.Count() > 0 ? result[0] : null;
             }
