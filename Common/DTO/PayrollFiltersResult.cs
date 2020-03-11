@@ -11,8 +11,8 @@ namespace Common.DTO
         public string Name { get; set; }
         public string Email { get; set; }
         public int EmployerId { get; set; }
-        public int ReceiptPeriod { get; set; }
-        public int Year { get; set; }
+        public Int16 ReceiptPeriod { get; set; }
+        public Int16 Year { get; set; }
         public decimal BaseIncome { get; set; }
         public decimal TotalPerception { get; set; }
         public decimal SavingMoney { get; set; }

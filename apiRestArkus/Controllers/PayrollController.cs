@@ -22,6 +22,34 @@ namespace apiRestArkus.Controllers
             this._payrollManager = new PayrollManager(dbContext);
         }
 
+        [HttpGet(APIConstants.Filters)]
+        public ActionResult GetByFilters([FromQuery] PayrollFiltersRequest payrollFiltersRequest)
+        {
+            try
+            {
+                var filters = this._payrollManager.GetByFilters(payrollFiltersRequest);
+                return Ok(filters);
+            }
+            catch (Exception ex)
+            {
+                return Conflict(new ErrorResponse { Message = ex.Message.ToString() });
+            }
+        }
+
+        [HttpGet(APIConstants.GetById)]
+        public ActionResult GetById(int id, [FromQuery] PayrollFiltersRequest payrollFiltersRequest)
+        {
+            try
+            {
+                var filters = this._payrollManager.GetByEmployerIdAndYearAndMonth(id, payrollFiltersRequest.Year, payrollFiltersRequest.Month);
+                return Ok(filters);
+            }
+            catch (Exception ex)
+            {
+                return Conflict(new ErrorResponse { Message = ex.Message.ToString() });
+            }
+        }
+
         [HttpPost(APIConstants.Save)]
         public ActionResult GeneratePayrolls()
         {

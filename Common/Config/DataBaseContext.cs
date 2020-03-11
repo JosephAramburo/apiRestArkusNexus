@@ -12,7 +12,7 @@ namespace Common.Config
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options)
         {
         }
-
+        public DbSet<PayrollFiltersResult> PayrollFiltersResults { get; set; }
         public DbSet<EmployerFiltersResult> EmployerFiltersResults { get; set; }
 
         public DbSet<EmployerDTO> Employer { get; set; }

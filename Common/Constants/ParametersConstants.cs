@@ -36,6 +36,7 @@ namespace Common.Constants
 
         public const string EmployerId          = "@employerId";
         public const string EmailEmployer       = "@emailEmployer";
+        public const string NameEmployer        = "@nameEmployer";
         #endregion
     }
 }

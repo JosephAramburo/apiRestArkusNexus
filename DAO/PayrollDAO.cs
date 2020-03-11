@@ -25,7 +25,7 @@ namespace DAO
         {
             try
             {
-                this._dataBaseContext.Set<PayrollFiltersResult>().FromSql("EXEC " + StoreProcedureConstants.GeneratePayrollsHistory);
+                this._dataBaseContext.Database.ExecuteSqlCommand("EXEC " + StoreProcedureConstants.GeneratePayrollsHistory);
             }
             catch (SqlException sqlEx)
             {
@@ -54,7 +54,7 @@ namespace DAO
                     new SqlParameter(ParametersConstants.Month,         SqlDbType.Int) { Value = month },
                 };
 
-                var result = this._dataBaseContext.Set<PayrollFiltersResult>().FromSql(storeProcedure, new SqlParameter(ParametersConstants.ID, id)).ToList();
+                var result = this._dataBaseContext.PayrollFiltersResults.FromSql(storeProcedure, listParameters.ToArray()).ToList();
 
                 return result.Count() > 0 ? result[0] : null;
             }
@@ -72,11 +72,12 @@ namespace DAO
         {
             try
             {
-                var storeProcedure = string.Format("EXEC {0} {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}",
+                var storeProcedure = string.Format("EXEC {0} {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}",
                     StoreProcedureConstants.GetPayrollsByFilters,
                     ParametersConstants.Page,
                     ParametersConstants.ID,
                     ParametersConstants.EmployerId,
+                    ParametersConstants.NameEmployer,
                     ParametersConstants.EmailEmployer,
                     ParametersConstants.Month,
                     ParametersConstants.Year,
@@ -87,10 +88,11 @@ namespace DAO
                 {
                     new SqlParameter(ParametersConstants.Page,          SqlDbType.Int)          { Value = payrollFiltersRequest.Page},
                     new SqlParameter(ParametersConstants.ID,            SqlDbType.Int)          { Value = payrollFiltersRequest.Id},
-                    new SqlParameter(ParametersConstants.EmployerId,    SqlDbType.VarChar, 180) { Value = payrollFiltersRequest.NameEmployer  == null ? "" : payrollFiltersRequest.NameEmployer},
+                    new SqlParameter(ParametersConstants.EmployerId,    SqlDbType.Int)          { Value = payrollFiltersRequest.Id},
+                    new SqlParameter(ParametersConstants.NameEmployer,  SqlDbType.VarChar, 180) { Value = payrollFiltersRequest.NameEmployer  == null ? "" : payrollFiltersRequest.NameEmployer},
                     new SqlParameter(ParametersConstants.EmailEmployer, SqlDbType.VarChar, 200) { Value = payrollFiltersRequest.EmailEmployer == null ? "" : payrollFiltersRequest.EmailEmployer },
-                    new SqlParameter(ParametersConstants.Month,         SqlDbType.Int)          { Value = payrollFiltersRequest.Month },
-                    new SqlParameter(ParametersConstants.Year,          SqlDbType.Int)          { Value = payrollFiltersRequest.Year },
+                    new SqlParameter(ParametersConstants.Month,         SqlDbType.SmallInt)     { Value = payrollFiltersRequest.Month },
+                    new SqlParameter(ParametersConstants.Year,          SqlDbType.SmallInt)     { Value = payrollFiltersRequest.Year },
                     new SqlParameter(ParametersConstants.Status,        SqlDbType.Int)          { Value = payrollFiltersRequest.Status},
                     new SqlParameter(ParametersConstants.Limit,         SqlDbType.Int)          { Value = 5 }
                 };
