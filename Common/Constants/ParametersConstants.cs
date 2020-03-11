@@ -15,6 +15,8 @@ namespace Common.Constants
         public const string CreatedBy   = "@createdBy";
         public const string UpdatedAt   = "@updatedAt";
         public const string UpdatedBy   = "@updatedBy";
+        public const string Year        = "@year";
+        public const string Month       = "@month";
         #endregion
 
         #region Parameters StoreProcedure
@@ -27,9 +29,13 @@ namespace Common.Constants
         public const string AdmissionDate       = "@admissionDate";
         public const string BaseIncome          = "@baseIncome";
         public const string BreakfastDeduction  = "@breakfastDeduction";
-        public const string SavingsDeduction    = "@savingsDeduction";        
-        public const string Page                = "@page";    
-        public const string Limit               = "@limit";    
+        public const string SavingsDeduction    = "@savingsDeduction";
+        public const string GasolineCard        = "@gasolineCard";
+        public const string Page                = "@page";
+        public const string Limit               = "@limit";
+
+        public const string EmployerId          = "@employerId";
+        public const string EmailEmployer       = "@emailEmployer";
         #endregion
     }
 }

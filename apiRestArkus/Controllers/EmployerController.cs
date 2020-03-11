@@ -30,7 +30,7 @@ namespace apiRestArkus.Controllers
             }
             catch (Exception ex)
             {
-                return Conflict(ex.Message.ToString());
+                return Conflict(new ErrorResponse { Message = ex.Message.ToString() });
             }
         }
 
@@ -44,7 +44,7 @@ namespace apiRestArkus.Controllers
             }
             catch (Exception ex)
             {
-                return Conflict(ex.Message.ToString());
+                return Conflict(new ErrorResponse { Message = ex.Message.ToString() });
             }
         }
 
@@ -58,7 +58,7 @@ namespace apiRestArkus.Controllers
             }
             catch (Exception ex)
             {
-                return Conflict(ex.Message.ToString());
+                return Conflict(new ErrorResponse { Message = ex.Message.ToString() });
             }
         }
 
@@ -72,7 +72,7 @@ namespace apiRestArkus.Controllers
             }
             catch (Exception ex)
             {
-                return Conflict(ex.Message.ToString());
+                return Conflict(new ErrorResponse { Message = ex.Message.ToString() });
             }
         }
 
@@ -86,7 +86,7 @@ namespace apiRestArkus.Controllers
             }
             catch (Exception ex)
             {
-                return Conflict(ex.Message.ToString());
+                return Conflict(new ErrorResponse { Message = ex.Message.ToString() });
             }
         }
     }

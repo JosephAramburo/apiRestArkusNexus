@@ -19,6 +19,7 @@ namespace Common.DTO
         public decimal BaseIncome { get; set; }
         public decimal BreakfastDeduction { get; set; }
         public decimal SavingsDeduction { get; set; }
+        public decimal GasolineCard { get; set; }
         public DateTime CreatedAt { get; set; }
         public int CreatedBy { get; set; }
         public DateTime ?UpdatedAt { get; set; }

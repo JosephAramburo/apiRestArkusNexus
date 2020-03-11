@@ -4,14 +4,15 @@ using System.Text;
 
 namespace Common.DTO
 {
-    public class EmployerFiltersRequest
+    public class PayrollFiltersRequest
     {
         public int Page { get; set; }
         public int Id { get; set; }
-        public string Email { get; set; }
-        public string Name { get; set; }
-        public DateTime AdmissionDate { get; set; }
-        public int Role { get; set; }
+        public int EmployerId { get; set; }
+        public string NameEmployer { get; set; }
+        public string EmailEmployer { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
         public byte Status { get; set; }
         public int Limit { get; set; }
     }

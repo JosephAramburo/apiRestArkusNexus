@@ -82,7 +82,7 @@ namespace Manager
         {
             try
             {
-                return this.employerDomainObject.Save(employerDTO);
+                return this.employerDomainObject.Update(employerDTO);
             }
             catch (Exception ex)
             {

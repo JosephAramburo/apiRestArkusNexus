@@ -115,7 +115,7 @@ namespace DAO
                 var listParameters = new List<SqlParameter>
                 {
                     new SqlParameter(ParametersConstants.ID,        SqlDbType.Int) { Value = id },                    
-                    new SqlParameter(ParametersConstants.Status,    SqlDbType.Int) { Value = 0 },
+                    new SqlParameter(ParametersConstants.Status,    SqlDbType.Bit) { Value = 0 },
                     new SqlParameter(ParametersConstants.UpdatedAt, SqlDbType.DateTime) { Value = DateTime.Now },
                     new SqlParameter(ParametersConstants.UpdatedBy, SqlDbType.Int) { Value = 1 },
                 };
@@ -173,58 +173,70 @@ namespace DAO
 
         private EmployerDTO ExecuteCreateOrUpdate(int typeCrud, EmployerDTO employerDTO)
         {
-            List<string> listString = new List<string>
+            try
             {
-                StoreProcedureConstants.CreateOrUpdateEmployer,
-                ParametersConstants.TypeScrud,
-                ParametersConstants.Email,
-                ParametersConstants.Password,
-                ParametersConstants.Role,
-                ParametersConstants.Name,
-                ParametersConstants.LastName,
-                ParametersConstants.MotherLastName,
-                ParametersConstants.Status,
-                ParametersConstants.AdmissionDate,
-                ParametersConstants.BaseIncome,
-                ParametersConstants.BreakfastDeduction,
-                ParametersConstants.SavingsDeduction
-            };
-            
-            var listParameters = new List<SqlParameter>
+                var storeProcedure = string.Format("EXEC {0} {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}",
+                    StoreProcedureConstants.CreateOrUpdateEmployer,
+                    ParametersConstants.TypeScrud,
+                    ParametersConstants.ID,
+                    ParametersConstants.Email,
+                    ParametersConstants.Password,
+                    ParametersConstants.Role,
+                    ParametersConstants.Name,
+                    ParametersConstants.LastName,
+                    ParametersConstants.MotherLastName,
+                    ParametersConstants.Status,
+                    ParametersConstants.AdmissionDate,
+                    ParametersConstants.BaseIncome,
+                    ParametersConstants.BreakfastDeduction,
+                    ParametersConstants.SavingsDeduction,
+                    ParametersConstants.GasolineCard,
+                    ParametersConstants.CreatedAt,
+                    ParametersConstants.CreatedBy,
+                    ParametersConstants.UpdatedAt,
+                    ParametersConstants.UpdatedBy
+                );
+
+                if (!employerDTO.Password.Equals(""))
                 {
-                    new SqlParameter(ParametersConstants.TypeScrud, typeCrud),
-                    new SqlParameter(ParametersConstants.Email, employerDTO.Email),
-                    new SqlParameter(ParametersConstants.Password, employerDTO.Password),
-                    new SqlParameter(ParametersConstants.Role, employerDTO.Role),
-                    new SqlParameter(ParametersConstants.Name, employerDTO.Name),
-                    new SqlParameter(ParametersConstants.LastName, employerDTO.LastName),
-                    new SqlParameter(ParametersConstants.MotherLastName, employerDTO.MotherLastName),
-                    new SqlParameter(ParametersConstants.Status, employerDTO.Status),
-                    new SqlParameter(ParametersConstants.AdmissionDate, employerDTO.AdmissionDate),
-                    new SqlParameter(ParametersConstants.BaseIncome, employerDTO.BaseIncome),
-                    new SqlParameter(ParametersConstants.BreakfastDeduction, employerDTO.BreakfastDeduction),
-                    new SqlParameter(ParametersConstants.SavingsDeduction, employerDTO.SavingsDeduction)                    
+                    var salt             = BCrypt.Net.BCrypt.GenerateSalt(12);
+                    employerDTO.Password = BCrypt.Net.BCrypt.HashPassword(employerDTO.Password, salt);
+                }
+
+                var listParameters = new List<SqlParameter>
+                {
+                    new SqlParameter(ParametersConstants.TypeScrud,             SqlDbType.Int)          { Value = typeCrud },
+                    new SqlParameter(ParametersConstants.ID,                    SqlDbType.Int)          { Value = employerDTO.Id },
+                    new SqlParameter(ParametersConstants.Email,                 SqlDbType.VarChar, 200) { Value = employerDTO.Email },
+                    new SqlParameter(ParametersConstants.Password,              SqlDbType.VarChar, 250) { Value = employerDTO.Password },
+                    new SqlParameter(ParametersConstants.Role,                  SqlDbType.Int)          { Value = employerDTO.Role },
+                    new SqlParameter(ParametersConstants.Name,                  SqlDbType.VarChar, 60)  { Value = employerDTO.Name },
+                    new SqlParameter(ParametersConstants.LastName,              SqlDbType.VarChar, 60)  { Value = employerDTO.LastName },
+                    new SqlParameter(ParametersConstants.MotherLastName,        SqlDbType.VarChar, 60)  { Value =  employerDTO.MotherLastName },
+                    new SqlParameter(ParametersConstants.Status,                SqlDbType.Bit)          { Value = employerDTO.Status },
+                    new SqlParameter(ParametersConstants.AdmissionDate,         SqlDbType.DateTime)     { Value = employerDTO.AdmissionDate },
+                    new SqlParameter(ParametersConstants.BaseIncome,            SqlDbType.Decimal)      { Value = employerDTO.BaseIncome,           Precision = 14, Scale = 2 },
+                    new SqlParameter(ParametersConstants.BreakfastDeduction,    SqlDbType.Decimal)      { Value = employerDTO.BreakfastDeduction,   Precision = 14, Scale = 2 },
+                    new SqlParameter(ParametersConstants.SavingsDeduction,      SqlDbType.Decimal)      { Value = employerDTO.SavingsDeduction,     Precision = 14, Scale = 2 },
+                    new SqlParameter(ParametersConstants.GasolineCard,          SqlDbType.Decimal)      { Value = employerDTO.GasolineCard,         Precision = 14, Scale = 2 },
+                    new SqlParameter(ParametersConstants.CreatedAt,             SqlDbType.DateTime)     { Value = DateTime.Now },
+                    new SqlParameter(ParametersConstants.CreatedBy,             SqlDbType.Int)          { Value = employerDTO.CreatedBy },
+                    new SqlParameter(ParametersConstants.UpdatedAt,             SqlDbType.DateTime)     { Value = DateTime.Now },
+                    new SqlParameter(ParametersConstants.UpdatedBy,             SqlDbType.Int)          { Value = employerDTO.UpdatedBy }
                 };
 
-            if (typeCrud.Equals(1))
-            {
-                listString.Add(ParametersConstants.CreatedAt);
-                listString.Add(ParametersConstants.CreatedBy);                
-                listParameters.Add(new SqlParameter(ParametersConstants.CreatedAt, DateTime.Now));
-                listParameters.Add(new SqlParameter(ParametersConstants.CreatedBy, employerDTO.CreatedBy));
-            }
-            else
-            {
-                listString.Add(ParametersConstants.UpdatedAt);
-                listString.Add(ParametersConstants.UpdatedBy);
-                listParameters.Add(new SqlParameter(ParametersConstants.UpdatedAt, DateTime.Now));
-                listParameters.Add(new SqlParameter(ParametersConstants.UpdatedBy, employerDTO.UpdatedBy));
-            }
+                var result = this._dataBaseContext.Employer.FromSql(storeProcedure, listParameters.ToArray()).ToList();
 
-            var storeProcedure = string.Format("EXEC {0} {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}", listString.ToArray());
-            var result = this._dataBaseContext.Employer.FromSql(storeProcedure, listParameters).ToList();
-
-            return result.Count() > 0 ? result[0] : null;
+                return result.Count() > 0 ? result[0] : null;
+            }
+            catch (SqlException sqlE)
+            {
+                throw new Exception(sqlE.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            };
         }
     }
 }

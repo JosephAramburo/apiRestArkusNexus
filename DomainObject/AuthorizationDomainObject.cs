@@ -33,6 +33,12 @@ namespace DomainObject
 
                 if(employer != null)
                 {
+
+                    if (employer.Status.Equals(false))
+                    {
+                        throw new Exception("Usuario no activo");
+                    }
+
                     var salt = BCrypt.Net.BCrypt.GenerateSalt(12);
                     var password = BCrypt.Net.BCrypt.HashPassword(loginRequest.Password, salt);
                     if (BCrypt.Net.BCrypt.Verify(loginRequest.Password, employer.Password))

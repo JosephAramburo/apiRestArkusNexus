@@ -9,5 +9,6 @@ namespace apiRestArkus.Constants
     {        
         public const string Employer        = "api/employer";
         public const string Authorization   = "api/authorization";
+        public const string Payroll         = "api/payroll";
     }
 }

@@ -11,5 +11,10 @@ namespace Common.Constants
         public const string GetEmployerById         = "sp_GetEmployerById";
         public const string GetEmployerByEmail      = "sp_GetEmployerByEmail";
         public const string GetEmployersByFilters   = "sp_GetEmployersByFilters";
+
+        public const string GetPayrollsByFilters                    = "sp_GetPayrollsByFilters";
+        public const string GetPayrollById                          = "sp_GetPayrollById";
+        public const string GeneratePayrollsHistory                 = "sp_GeneratePayrollsHistory";
+        public const string GetPayrollByEmpleadoIdAndYearAndMonth   = "sp_GetPayrollByEmpleadoIdAndYearAndMonth";
     }
 }
