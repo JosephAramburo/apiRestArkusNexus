@@ -88,7 +88,7 @@ namespace DAO
                 {
                     new SqlParameter(ParametersConstants.Page,          SqlDbType.Int)          { Value = payrollFiltersRequest.Page},
                     new SqlParameter(ParametersConstants.ID,            SqlDbType.Int)          { Value = payrollFiltersRequest.Id},
-                    new SqlParameter(ParametersConstants.EmployerId,    SqlDbType.Int)          { Value = payrollFiltersRequest.Id},
+                    new SqlParameter(ParametersConstants.EmployerId,    SqlDbType.Int)          { Value = payrollFiltersRequest.EmployerId},
                     new SqlParameter(ParametersConstants.NameEmployer,  SqlDbType.VarChar, 180) { Value = payrollFiltersRequest.NameEmployer  == null ? "" : payrollFiltersRequest.NameEmployer},
                     new SqlParameter(ParametersConstants.EmailEmployer, SqlDbType.VarChar, 200) { Value = payrollFiltersRequest.EmailEmployer == null ? "" : payrollFiltersRequest.EmailEmployer },
                     new SqlParameter(ParametersConstants.Month,         SqlDbType.SmallInt)     { Value = payrollFiltersRequest.Month },

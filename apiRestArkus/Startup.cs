@@ -1,10 +1,13 @@
-﻿using Common.Config;
+﻿using apiRestArkus.Config;
+using apiRestArkus.Constants;
+using Common.Config;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace apiRestArkus
 {
@@ -40,6 +43,20 @@ namespace apiRestArkus
 
             app.UseCors("Cors");
             app.UseHttpsRedirection();
+
+
+            app.UseWhen(x => (x.Request.Path.StartsWithSegments("/"+ControllerContants.Employer, StringComparison.OrdinalIgnoreCase)),
+            builder =>
+            {
+                builder.UseMiddleware<Middleware>(Configuration);
+            });
+            app.UseWhen(x => (x.Request.Path.StartsWithSegments("/"+ControllerContants.Payroll, StringComparison.OrdinalIgnoreCase)),
+            builder =>
+            {
+                builder.UseMiddleware<Middleware>(Configuration);
+            });
+
+
             app.UseMvc();
         }
     }
